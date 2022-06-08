@@ -306,6 +306,7 @@ def test_bids_datasets(bids_examples, tmp_path):
     from bidsschematools.validator import validate_bids
 
     whitelist = [
+        "ds001",
         "asl003",
         "eeg_cbm",
         "hcp_example_bids",
