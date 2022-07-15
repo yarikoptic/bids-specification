@@ -364,7 +364,7 @@ def load_all(
 
 
 def validate_all(
-    bids_paths,
+    paths_list,
     regex_schema,
     pseudofile_suffixes=[],
 ):
@@ -400,7 +400,6 @@ def validate_all(
     """
 
     tracking_schema = deepcopy(regex_schema)
-    paths_list = _get_paths(bids_paths, pseudofile_suffixes=pseudofile_suffixes)
     tracking_paths = deepcopy(paths_list)
     itemwise_results = []
     matched = False
@@ -778,6 +777,7 @@ def _get_directory_suffixes(my_schema):
 
 def validate_bids(
     bids_paths,
+    dummy_paths=False,
     schema_reference_root="{module_path}/data/",
     schema_version=None,
     report_path=False,
@@ -791,6 +791,9 @@ def validate_bids(
     ----------
     paths : str or list of str
         Paths which to validate, may be individual files or directories.
+    dummy_paths : bool, optional
+        Whether to validate paths even if non-existent, this presumes that only file paths are
+        provided via the `paths` parameter.
     schema_reference_root : str, optional
         Path where schema versions are stored, and which contains directories named exactly
         according to the respective schema version, e.g. "1.7.0".
@@ -844,8 +847,12 @@ def validate_bids(
     )
     regex_schema, my_schema = load_all(bids_schema_dir)
     pseudofile_suffixes = _get_directory_suffixes(my_schema)
+    if not dummy_paths:
+        paths_list = _get_paths(bids_paths)
+    else:
+        paths_list = bids_paths
     validation_result = validate_all(
-        bids_paths,
+        paths_list,
         regex_schema,
         pseudofile_suffixes=pseudofile_suffixes,
     )
