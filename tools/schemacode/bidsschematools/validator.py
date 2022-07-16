@@ -700,10 +700,8 @@ def _inheritance_expansion(
     """
 
     # Order is important as the string is eroded.
-    # Session needs to be eroded *together with* subject, as it is always optional
-    # and the erosion is:
-    #   * only required if a dangling leading underscore is present after subject removal.
-    #   * only BIDS-valid when the subject field is eroded from the filename.
+    #   * Catching dangling underscores needs to be attempted first, as otherwise invalid
+    #   patterns are generated.
     expansions = [
         {
             "regex": r".*?(?P<replace1>\(\|ses-\(\?P<session>\(\[0\-9a\-zA\-Z\]\+\)\)/\)).*?"
@@ -717,15 +715,6 @@ def _inheritance_expansion(
             "replace1": "",
             "replace2": "",
         },
-        # {
-        #    "regex":
-        #        r".*?(?P<replace1>sub-\(\?P<subject>\(\[0\-9a\-zA\-Z\]\+\)\)/).*?"
-        #        r"(?P<replace2>sub-\(\?P=subject\))"
-        #        r"(?P<replace3>\(\|_ses-\(\?P=session\)\)_).*?",
-        #    "replace1": "",
-        #    "replace2": "",
-        #    "replace3": "",
-        # },
         {
             "regex": r".*?(?P<replace1>sub-\(\?P<subject>\(\[0\-9a\-zA\-Z\]\+\)\)/).*?"
             r"(?P<replace2>sub-\(\?P=subject\)).*?",
