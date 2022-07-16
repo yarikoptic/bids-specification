@@ -706,20 +706,18 @@ def _inheritance_expansion(
     #   * only BIDS-valid when the subject field is eroded from the filename.
     expansions = [
         {
-            "regex":
-                r".*?(?P<replace1>\(\|ses-\(\?P<session>\(\[0\-9a\-zA\-Z\]\+\)\)/\)).*?"
-                r"(?P<replace2>\(\|_ses-\(\?P=session\)\)_).*?",
+            "regex": r".*?(?P<replace1>\(\|ses-\(\?P<session>\(\[0\-9a\-zA\-Z\]\+\)\)/\)).*?"
+            r"(?P<replace2>\(\|_ses-\(\?P=session\)\)_).*?",
             "replace1": "",
             "replace2": "",
         },
         {
-            "regex":
-                r".*?(?P<replace1>\(\|ses-\(\?P<session>\(\[0\-9a\-zA\-Z\]\+\)\)/\)).*?"
-                r"(?P<replace2>\(\|_ses-\(\?P=session\)\)).*?",
+            "regex": r".*?(?P<replace1>\(\|ses-\(\?P<session>\(\[0\-9a\-zA\-Z\]\+\)\)/\)).*?"
+            r"(?P<replace2>\(\|_ses-\(\?P=session\)\)).*?",
             "replace1": "",
             "replace2": "",
         },
-        #{
+        # {
         #    "regex":
         #        r".*?(?P<replace1>sub-\(\?P<subject>\(\[0\-9a\-zA\-Z\]\+\)\)/).*?"
         #        r"(?P<replace2>sub-\(\?P=subject\))"
@@ -727,11 +725,10 @@ def _inheritance_expansion(
         #    "replace1": "",
         #    "replace2": "",
         #    "replace3": "",
-        #},
+        # },
         {
-            "regex":
-                r".*?(?P<replace1>sub-\(\?P<subject>\(\[0\-9a\-zA\-Z\]\+\)\)/).*?"
-                r"(?P<replace2>sub-\(\?P=subject\)).*?",
+            "regex": r".*?(?P<replace1>sub-\(\?P<subject>\(\[0\-9a\-zA\-Z\]\+\)\)/).*?"
+            r"(?P<replace2>sub-\(\?P=subject\)).*?",
             "replace1": "",
             "replace2": "",
         },

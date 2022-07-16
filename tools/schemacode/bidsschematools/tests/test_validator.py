@@ -227,7 +227,7 @@ def test__add_suffixes():
 def test__inheritance_expansion():
     from bidsschematools.validator import _inheritance_expansion
 
-    for i in ["json","tsv","bvec"]:
+    for i in ["json", "tsv", "bvec"]:
         base_entry = (
             r".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
             r"(|ses-(?P<session>([0-9a-zA-Z]+))/)func/sub-(?P=subject)"
@@ -242,34 +242,34 @@ def test__inheritance_expansion():
         )
         expected_entries = [
             ".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
-                "(|ses-(?P<session>([0-9a-zA-Z]+))/)"
-                "sub-(?P=subject)(|_ses-(?P=session))"
-                "_task-(?P<task>([0-9a-zA-Z]+))"
-                "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-                "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-                "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-                "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-                "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-                "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-                "_phase(\\.nii\\.gz|\\.nii|\\.{})$".format(i),
+            "(|ses-(?P<session>([0-9a-zA-Z]+))/)"
+            "sub-(?P=subject)(|_ses-(?P=session))"
+            "_task-(?P<task>([0-9a-zA-Z]+))"
+            "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
+            "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
+            "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
+            "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
+            "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
+            "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
+            "_phase(\\.nii\\.gz|\\.nii|\\.{})$".format(i),
             ".*?/sub-(?P<subject>([0-9a-zA-Z]+))"
-                "/sub-(?P=subject)"
-                "task-(?P<task>([0-9a-zA-Z]+))"
-                "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-                "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-                "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-                "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-                "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-                "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-                "_phase(\\.nii\\.gz|\\.nii|\\.{})$".format(i),
+            "/sub-(?P=subject)"
+            "task-(?P<task>([0-9a-zA-Z]+))"
+            "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
+            "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
+            "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
+            "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
+            "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
+            "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
+            "_phase(\\.nii\\.gz|\\.nii|\\.{})$".format(i),
             ".*?/task-(?P<task>([0-9a-zA-Z]+))"
-                "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-                "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-                "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-                "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-                "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-                "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-                "_phase(\\.nii\\.gz|\\.nii|\\.{})$".format(i),
+            "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
+            "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
+            "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
+            "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
+            "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
+            "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
+            "_phase(\\.nii\\.gz|\\.nii|\\.{})$".format(i),
         ]
 
     inheritance_expanded_entries = _inheritance_expansion(base_entry, datatype="func")
@@ -279,20 +279,21 @@ def test__inheritance_expansion():
 
 def test_inheritance_filenames():
     from bidsschematools.validator import validate_bids
+
     filenames = [
-            "./sub-01/ses-test/sub-01_task-rest_acq-longtr_bold.json",
-            "./task-rest_bold.json",
-            ]
+        "./sub-01/ses-test/sub-01_task-rest_acq-longtr_bold.json",
+        "./task-rest_bold.json",
+    ]
     result = validate_bids(filenames, dummy_paths=True)
     # Were all filenames considered valid?
     assert len(result["path_tracking"]) == 0
 
     broken_filenames = [
-            "./sub-01/sub-01_ses-test_task-rest_acq-longtr_bold.json",
-            "./ses-test/ses-test_task-rest_acq-longtrbold.json",
-            "./ses-test_task-rest_acq-longtrbold.json",
-            "./task-rest.json",
-            ]
+        "./sub-01/sub-01_ses-test_task-rest_acq-longtr_bold.json",
+        "./ses-test/ses-test_task-rest_acq-longtrbold.json",
+        "./ses-test_task-rest_acq-longtrbold.json",
+        "./task-rest.json",
+    ]
     all_filenames = filenames + broken_filenames
     result = validate_bids(all_filenames, dummy_paths=True, report_path=True)
     # Were all filenames considered valid?
