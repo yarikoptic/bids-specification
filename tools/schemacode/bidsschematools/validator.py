@@ -700,19 +700,40 @@ def _inheritance_expansion(
     """
 
     # Order is important as the string is eroded.
-    # Session is eroded *together with* and *after* subject, as it is always optional
+    # Session needs to be eroded *together with* subject, as it is always optional
     # and the erosion is:
     #   * only required if a dangling leading underscore is present after subject removal.
-    #   * only BIDS-valid after the subject field is eroded from the filename.
+    #   * only BIDS-valid when the subject field is eroded from the filename.
     expansions = [
         {
-            "regex": [
-                r".*?(?P<remove>sub-\(\?P<subject>\(\[0\-9a\-zA\-Z\]\+\)\)/).*?",
-                r".*?(?P<remove>sub-\(\?P=subject\))",
-                r".*?/(?P<remove>\(\|ses-\(\?P<session>\(\[0\-9a\-zA\-Z\]\+\)\)/\)\(\|_ses-\("
-                r"\?P=session\)\)_).*?",
-            ],
-            "replace": ["", "", ""],
+            "regex":
+                r".*?(?P<replace1>\(\|ses-\(\?P<session>\(\[0\-9a\-zA\-Z\]\+\)\)/\)).*?"
+                r"(?P<replace2>\(\|_ses-\(\?P=session\)\)_).*?",
+            "replace1": "",
+            "replace2": "",
+        },
+        {
+            "regex":
+                r".*?(?P<replace1>\(\|ses-\(\?P<session>\(\[0\-9a\-zA\-Z\]\+\)\)/\)).*?"
+                r"(?P<replace2>\(\|_ses-\(\?P=session\)\)).*?",
+            "replace1": "",
+            "replace2": "",
+        },
+        #{
+        #    "regex":
+        #        r".*?(?P<replace1>sub-\(\?P<subject>\(\[0\-9a\-zA\-Z\]\+\)\)/).*?"
+        #        r"(?P<replace2>sub-\(\?P=subject\))"
+        #        r"(?P<replace3>\(\|_ses-\(\?P=session\)\)_).*?",
+        #    "replace1": "",
+        #    "replace2": "",
+        #    "replace3": "",
+        #},
+        {
+            "regex":
+                r".*?(?P<replace1>sub-\(\?P<subject>\(\[0\-9a\-zA\-Z\]\+\)\)/).*?"
+                r"(?P<replace2>sub-\(\?P=subject\)).*?",
+            "replace1": "",
+            "replace2": "",
         },
     ]
     if datatype:
@@ -720,12 +741,8 @@ def _inheritance_expansion(
         expansions.insert(
             0,
             {
-                "regex": [
-                    f".*?(?P<remove>{datatype}/).*?",
-                ],
-                "replace": [
-                    "",
-                ],
+                "regex": f".*?(?P<replace1>{datatype}/).*?",
+                "replace1": "",
             },
         )
 
@@ -733,12 +750,12 @@ def _inheritance_expansion(
     lgr.debug("Applying inheritance expansion to:\n`%s`", regex_string)
     for expansion in expansions:
         modified = False
-        for ix, regex in enumerate(expansion["regex"]):
-            matched = re.match(regex, regex_string)
-            if matched:
-                matched = matched.groupdict()["remove"]
-                regex_string = regex_string.replace(matched, expansion["replace"][ix])
-                modified = True
+        matched = re.match(expansion["regex"], regex_string)
+        if matched:
+            modified = True
+            matched = matched.groupdict()
+            for i in matched:
+                regex_string = regex_string.replace(matched[i], expansion[i])
         if modified:
             expanded_regexes.append(regex_string)
             lgr.debug("\t* Generated expansion:\n\t%s", regex_string)

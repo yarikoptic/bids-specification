@@ -227,119 +227,76 @@ def test__add_suffixes():
 def test__inheritance_expansion():
     from bidsschematools.validator import _inheritance_expansion
 
-    # test .json
-    base_entry = (
-        r".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
-        r"(|ses-(?P<session>([0-9a-zA-Z]+))/)func/sub-(?P=subject)"
-        r"(|_ses-(?P=session))_task-(?P<task>([0-9a-zA-Z]+))"
-        r"(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-        r"(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-        r"(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-        r"(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-        r"(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-        r"(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-        r"_phase(\.nii\.gz|\.nii|\.json)$"
-    )
-    expected_entries = [
-        ".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
-        "(|ses-(?P<session>([0-9a-zA-Z]+))/)"
-        "sub-(?P=subject)(|_ses-(?P=session))"
-        "_task-(?P<task>([0-9a-zA-Z]+))"
-        "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-        "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-        "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-        "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-        "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-        "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-        "_phase(\\.nii\\.gz|\\.nii|\\.json)$",
-        ".*?/task-(?P<task>([0-9a-zA-Z]+))"
-        "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-        "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-        "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-        "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-        "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-        "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-        "_phase(\\.nii\\.gz|\\.nii|\\.json)$",
-    ]
+    for i in ["json","tsv","bvec"]:
+        base_entry = (
+            r".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
+            r"(|ses-(?P<session>([0-9a-zA-Z]+))/)func/sub-(?P=subject)"
+            r"(|_ses-(?P=session))_task-(?P<task>([0-9a-zA-Z]+))"
+            r"(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
+            r"(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
+            r"(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
+            r"(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
+            r"(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
+            r"(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
+            r"_phase(\.nii\.gz|\.nii|\.{})$".format(i)
+        )
+        expected_entries = [
+            ".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
+                "(|ses-(?P<session>([0-9a-zA-Z]+))/)"
+                "sub-(?P=subject)(|_ses-(?P=session))"
+                "_task-(?P<task>([0-9a-zA-Z]+))"
+                "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
+                "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
+                "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
+                "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
+                "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
+                "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
+                "_phase(\\.nii\\.gz|\\.nii|\\.{})$".format(i),
+            ".*?/sub-(?P<subject>([0-9a-zA-Z]+))"
+                "/sub-(?P=subject)"
+                "task-(?P<task>([0-9a-zA-Z]+))"
+                "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
+                "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
+                "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
+                "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
+                "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
+                "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
+                "_phase(\\.nii\\.gz|\\.nii|\\.{})$".format(i),
+            ".*?/task-(?P<task>([0-9a-zA-Z]+))"
+                "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
+                "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
+                "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
+                "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
+                "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
+                "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
+                "_phase(\\.nii\\.gz|\\.nii|\\.{})$".format(i),
+        ]
 
     inheritance_expanded_entries = _inheritance_expansion(base_entry, datatype="func")
-    assert inheritance_expanded_entries == expected_entries
+    for ix, i in enumerate(inheritance_expanded_entries):
+        assert i == expected_entries[ix]
 
-    # test .tsv
-    base_entry = (
-        r".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
-        r"(|ses-(?P<session>([0-9a-zA-Z]+))/)func/sub-(?P=subject)"
-        r"(|_ses-(?P=session))_task-(?P<task>([0-9a-zA-Z]+))"
-        r"(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-        r"(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-        r"(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-        r"(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-        r"(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-        r"(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-        r"_phase(\.nii\.gz|\.nii|\.tsv)$"
-    )
-    expected_entries = [
-        ".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
-        "(|ses-(?P<session>([0-9a-zA-Z]+))/)"
-        "sub-(?P=subject)(|_ses-(?P=session))"
-        "_task-(?P<task>([0-9a-zA-Z]+))"
-        "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-        "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-        "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-        "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-        "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-        "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-        "_phase(\\.nii\\.gz|\\.nii|\\.tsv)$",
-        ".*?/task-(?P<task>([0-9a-zA-Z]+))"
-        "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-        "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-        "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-        "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-        "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-        "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-        "_phase(\\.nii\\.gz|\\.nii|\\.tsv)$",
-    ]
 
-    inheritance_expanded_entries = _inheritance_expansion(base_entry, datatype="func")
-    assert inheritance_expanded_entries == expected_entries
+def test_inheritance_filenames():
+    from bidsschematools.validator import validate_bids
+    filenames = [
+            "./sub-01/ses-test/sub-01_task-rest_acq-longtr_bold.json",
+            "./task-rest_bold.json",
+            ]
+    result = validate_bids(filenames, dummy_paths=True)
+    # Were all filenames considered valid?
+    assert len(result["path_tracking"]) == 0
 
-    # test .bvec
-    base_entry = (
-        r".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
-        r"(|ses-(?P<session>([0-9a-zA-Z]+))/)func/sub-(?P=subject)"
-        r"(|_ses-(?P=session))_task-(?P<task>([0-9a-zA-Z]+))"
-        r"(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-        r"(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-        r"(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-        r"(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-        r"(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-        r"(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-        r"_phase(\.nii\.gz|\.nii|\.bvec)$"
-    )
-    expected_entries = [
-        ".*?/sub-(?P<subject>([0-9a-zA-Z]+))/"
-        "(|ses-(?P<session>([0-9a-zA-Z]+))/)"
-        "sub-(?P=subject)(|_ses-(?P=session))"
-        "_task-(?P<task>([0-9a-zA-Z]+))"
-        "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-        "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-        "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-        "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-        "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-        "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-        "_phase(\\.nii\\.gz|\\.nii|\\.bvec)$",
-        ".*?/task-(?P<task>([0-9a-zA-Z]+))"
-        "(|_acq-(?P<acquisition>([0-9a-zA-Z]+)))"
-        "(|_ce-(?P<ceagent>([0-9a-zA-Z]+)))"
-        "(|_rec-(?P<reconstruction>([0-9a-zA-Z]+)))"
-        "(|_dir-(?P<direction>([0-9a-zA-Z]+)))"
-        "(|_run-(?P<run>([0-9]*[1-9]+[0-9]*)))"
-        "(|_echo-(?P<echo>([0-9]*[1-9]+[0-9]*)))"
-        "_phase(\\.nii\\.gz|\\.nii|\\.bvec)$",
-    ]
-
-    inheritance_expanded_entries = _inheritance_expansion(base_entry, datatype="func")
-    assert inheritance_expanded_entries == expected_entries
+    broken_filenames = [
+            "./sub-01/sub-01_ses-test_task-rest_acq-longtr_bold.json",
+            "./ses-test/ses-test_task-rest_acq-longtrbold.json",
+            "./ses-test_task-rest_acq-longtrbold.json",
+            "./task-rest.json",
+            ]
+    all_filenames = filenames + broken_filenames
+    result = validate_bids(all_filenames, dummy_paths=True, report_path=True)
+    # Were all filenames considered valid?
+    assert len(result["path_tracking"]) == len(broken_filenames)
 
 
 def test_load_all():
