@@ -296,7 +296,7 @@ def test_inheritance_filenames():
     ]
     all_filenames = filenames + broken_filenames
     result = validate_bids(all_filenames, dummy_paths=True, report_path=True)
-    # Were all filenames considered valid?
+    # Were all broken filenames considered invalid?
     assert len(result["path_tracking"]) == len(broken_filenames)
 
 
