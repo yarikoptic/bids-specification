@@ -785,7 +785,7 @@ def validate_bids(
     schema_reference_root="{module_path}/data/",
     schema_version=None,
     report_path=False,
-    suppress_errors=False,
+    suppress_errors=False,  # NOT USED! Remove? Need derepcation cycle?
     schema_min_version="schema",
 ):
     """
