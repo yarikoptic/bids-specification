@@ -829,9 +829,9 @@ def validate_bids(
     Examples
     --------
     >>> from bidsschematools import validator
-    >>> bids_paths = '~/.data2/datalad/000026/rawdata'
+    >>> bids_dataset = '~/.data2/datalad/000026/rawdata'
     >>> schema_version='{module_path}/data/schema/'
-    >>> validator.validate_bids(bids_paths, schema_version=schema_version)"
+    >>> validator.validate_bids(bids_dataset, schema_version=schema_version)"
 
     Notes
     -----
