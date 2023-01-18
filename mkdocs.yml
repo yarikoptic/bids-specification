@@ -5,7 +5,7 @@ nav:
       - Introduction: introduction.md
       - Common principles: common-principles.md
       - Modality agnostic files: modality-agnostic-files.md
-      - Modality specific files:
+      - Modality specific files: # keep sections in sorted order when adding/editing
         - Behavioral experiments (with no neural recordings): modality-specific-files/behavioral-experiments.md
         - Electroencephalography: modality-specific-files/electroencephalography.md
         - Genetic Descriptor: modality-specific-files/genetic-descriptor.md
@@ -17,14 +17,14 @@ nav:
         - Physiological and other continuous recordings: modality-specific-files/physiological-and-other-continuous-recordings.md
         - Positron Emission Tomography: modality-specific-files/positron-emission-tomography.md
         - Task events: modality-specific-files/task-events.md
-      - Derivatives:
+      - Derivatives: # keep sections in sorted order when adding/editing
         - BIDS Derivatives: derivatives/introduction.md
         - Common data types and metadata: derivatives/common-data-types.md
         - Imaging data types: derivatives/imaging.md
       - Longitudinal and multi-site studies: longitudinal-and-multi-site-studies.md
       - Glossary: glossary.md
       - BIDS Extension Proposals: extensions.md
-      - Appendix:
+      - Appendix: # keep sections in sorted order when adding/editing
         - Arterial Spin Labeling: appendices/arterial-spin-labeling.md
         - Contributors: appendices/contributors.md
         - Coordinate systems: appendices/coordinate-systems.md
@@ -39,7 +39,7 @@ nav:
         - Quantitative MRI: appendices/qmri.md
         - Units: appendices/units.md
       - Changelog: CHANGES.md
-    - The BIDS Starter Kit:
+    - The BIDS Starter Kit: # keep sections in sorted order when adding/editing
       - GitHub repository: https://github.com/bids-standard/bids-starter-kit
       - Tutorials: https://bids-standard.github.io/bids-starter-kit/tutorials/tutorials.html
       - Website: https://bids-standard.github.io/bids-starter-kit
