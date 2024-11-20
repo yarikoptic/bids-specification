@@ -993,7 +993,7 @@ MEGOTHER:
     - ieeg
     - fnirs
   description: |
-    Any other type of MEG sensor.
+    Any other type of MEG electrode.
 ECOG:
   value: ECOG
   display_name: ECOG

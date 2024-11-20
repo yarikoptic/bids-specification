@@ -851,7 +851,7 @@ EEGCoordinateSystem:
   name: EEGCoordinateSystem
   display_name: EEG Coordinate System
   description: |
-    Defines the coordinate system for the EEG sensors.
+    Defines the coordinate system for the EEG electrodes.
 
     See the
     [Coordinate Systems Appendix](SPEC_ROOT/appendices/coordinate-systems.md)
@@ -1944,7 +1944,7 @@ MEGCoordinateSystem:
   name: MEGCoordinateSystem
   display_name: MEG Coordinate System
   description: |
-    Defines the coordinate system for the MEG sensors.
+    Defines the coordinate system for the MEG electrodes.
     See the
     [Coordinate Systems Appendix](SPEC_ROOT/appendices/coordinate-systems.md)
     for a list of restricted keywords for coordinate systems.
@@ -3956,7 +3956,7 @@ iEEGCoordinateSystem:
   name: iEEGCoordinateSystem
   display_name: iEEG Coordinate System
   description: |
-    Defines the coordinate system for the iEEG sensors.
+    Defines the coordinate system for the iEEG electrodes.
     See the
     [Coordinate Systems Appendix](SPEC_ROOT/appendices/coordinate-systems.md)
     for a list of restricted keywords for coordinate systems.

@@ -75,7 +75,7 @@ Please refer to
 for more information on this detail.
 
 Another manufacturer-specific detail pertains to the KIT/Yokogawa/Ricoh system,
-which saves the MEG sensor coil positions in a separate file with two possible filename extensions  (`.sqd`, `.mrk`).
+which saves the MEG electrode coil positions in a separate file with two possible filename extensions  (`.sqd`, `.mrk`).
 For these files, the `markers` suffix MUST be used.
 For example: `sub-01_task-nback_markers.sqd`
 
@@ -101,7 +101,7 @@ it SHOULD be stored separately under a new `/eeg` data type
 If however (i)EEG is recorded simultaneously **with the same MEG system**,
 it MAY be stored under the `/meg` data type.
 In that case, it SHOULD have the same sampling frequency as MEG (see `SamplingFrequency` field below).
-Furthermore, (i)EEG sensor coordinates MAY be recorded in an
+Furthermore, (i)EEG electrode coordinates MAY be recorded in an
 [`electrodes.tsv`](electroencephalography.md#electrodes-description-_electrodestsv)
 file using MEG-specific coordinate systems
 (see [Coordinate System JSON](#coordinate-system-json-_coordsystemjson) below and
@@ -275,7 +275,7 @@ Note that upper-case is REQUIRED:
 | MEGREFMAG        | MEG reference magnetometer                                   |
 | MEGREFGRADAXIAL  | MEG reference axial gradiometer                              |
 | MEGREFGRADPLANAR | MEG reference planar gradiometer                             |
-| MEGOTHER         | Any other type of MEG sensor                                 |
+| MEGOTHER         | Any other type of MEG electrode                              |
 | EEG              | Electrode channel                                            |
 | ECOG             | Electrode channel                                            |
 | SEEG             | Electrode channel                                            |
@@ -333,7 +333,7 @@ and a guide for using macros can be found at
 OPTIONAL. A JSON document specifying the coordinate system(s) used for the MEG,
 EEG, head localization coils, and anatomical landmarks.
 
-MEG and EEG sensors:
+MEG and EEG electrodes:
 
 <!-- This block generates a metadata table.
 These tables are defined in

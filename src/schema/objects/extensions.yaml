@@ -178,7 +178,7 @@ mrk:
   value: .mrk
   display_name: MRK
   description: |
-    A file containing MEG sensor coil positions.
+    A file containing MEG electrode coil positions.
 
     Used by KIT, Yokogawa, and Ricoh MEG systems.
     Successor to the `.sqd` extension for marker files.
@@ -261,7 +261,7 @@ sqd:
   value: .sqd
   display_name: SQD
   description: |
-    A file containing either raw MEG data or MEG sensor coil positions.
+    A file containing either raw MEG data or MEG electrode coil positions.
     While this extension is still valid, it has been succeeded by `.con` for raw MEG data and `.mrk` for
     marker information.
 

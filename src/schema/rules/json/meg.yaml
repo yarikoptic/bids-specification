@@ -5,7 +5,7 @@
 # Assumptions: top-to-bottom overrides is sufficient logic
 
 ---
-# MEG and EEG sensors
+# MEG and EEG electrodes
 MEGCoordsystemWithEEG:
   selectors:
     - datatype == "meg"
